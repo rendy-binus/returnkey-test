@@ -11,7 +11,9 @@ import java.util.UUID;
 public class RequestListener implements ServletRequestListener {
     @Override
     public void requestInitialized(ServletRequestEvent sre) {
-        MDC.put("requestId", UUID.randomUUID().toString());
+        String requestId = UUID.randomUUID().toString();
+        sre.getServletRequest().setAttribute("X-Request-Id", requestId);
+        MDC.put("requestId", requestId);
         ServletRequestListener.super.requestInitialized(sre);
     }
 

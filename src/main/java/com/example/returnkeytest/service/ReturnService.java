@@ -6,6 +6,7 @@ import com.example.returnkeytest.model.OrderCsvHeader;
 import com.example.returnkeytest.model.OrderRecord;
 import com.example.returnkeytest.model.dto.initreturn.InitReturnRequest;
 import com.example.returnkeytest.model.dto.initreturn.InitReturnResponse;
+import com.example.returnkeytest.model.entity.PendingReturn;
 import com.example.returnkeytest.repository.PendingReturnRepository;
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
@@ -14,10 +15,15 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.input.BOMInputStream;
 import org.springframework.stereotype.Service;
 
-import java.io.*;
+import javax.transaction.Transactional;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -29,6 +35,7 @@ public class ReturnService {
 
     private final PendingReturnRepository pendingReturnRepository;
 
+    @Transactional
     public InitReturnResponse initReturn(InitReturnRequest request) {
         log.info("orderId: {} | emailAddress: {}", request.getOrderId(), request.getEmailAddress());
 
@@ -42,7 +49,12 @@ public class ReturnService {
                             or.getEmailAddress().equalsIgnoreCase(request.getEmailAddress()))
                     .collect(Collectors.toList());
 
-            log.info("orderRecords: {}", orderRecords);
+            PendingReturn pendingReturn = PendingReturn.builder()
+                    .token(token)
+                    .orderRecords(orderRecords)
+                    .build();
+
+            pendingReturnRepository.save(pendingReturn);
         }
 
         return InitReturnResponse.builder()

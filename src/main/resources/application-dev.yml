@@ -1,0 +1,16 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:dev-db;DB_CLOSE_DELAY=-1
+    username: sa
+    password: sa
+    driverClassName: org.h2.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+  h2:
+    console:
+      enabled: true
+
+logging:
+  level:
+    root: info
+    com.example.returnkeytest: debug
