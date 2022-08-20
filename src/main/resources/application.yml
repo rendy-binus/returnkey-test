@@ -1,6 +1,12 @@
+server:
+  port: ${SERVICE_PORT:8080}
+
 spring:
   profiles:
     active: @spring.profiles.active@
+
+  main:
+    banner-mode: off
 
   jpa:
     hibernate:
@@ -9,8 +15,20 @@ spring:
     properties:
       hibernate:
         jdbc:
-          batch_size: 10
+          batch_size: ${JDBC_BATCH_SIZE:10}
 
-server:
-  servlet:
-    context-path: /api/v1
+sftp:
+  host: ${SFTP_HOST:127.0.0.1}
+  port: ${SFTP_PORT:2222}
+  username: ${SFTP_USERNAME:returnkey}
+  password: ${SFTP_PASSWORD:returnkey}
+  session-timeout: ${SFTP_SESSION_TIMEOUT:15000}
+  channel-timeout: ${SFTP_CHANNEL_TIMEOUT:15000}
+  order:
+    local-file-name: ${SFTP_ORDER_LOCAL_FILENAME:orders_%s.csv}
+    remote-file-path: ${SFTP_ORDER_REMOTE_FILEPATH:/order}
+    remote-file-name: ${SFTP_ORDER_REMOTE_FILENAME:orders.csv}
+
+logging:
+  pattern:
+    console: '%date{DEFAULT} %highlight{%-5level}{FATAL=bg_red, ERROR=red, WARN=yellow, INFO=green, TRACE=grey} --- [%15.15t] %style{%36.36c{3.}}{cyan} -%style{%notEmpty{ (%.6X{requestId})}}{blue} %msg%n%wEx'

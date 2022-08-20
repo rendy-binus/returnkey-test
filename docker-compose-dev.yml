@@ -1,0 +1,8 @@
+services:
+  sftp:
+    image: atmoz/sftp
+    volumes:
+      - ./sftp_folder:/home/returnkey/order
+    ports:
+      - "2222:22"
+    command: returnkey:returnkey:1000:1000:order

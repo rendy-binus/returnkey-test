@@ -38,3 +38,6 @@ build/
 ### Dev Custom ###
 pom-backup.xml
 **/src/main/**/*.java.bak
+sftp_folder/*
+*.csv
+!/orders.csv
