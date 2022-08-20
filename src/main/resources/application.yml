@@ -1,0 +1,16 @@
+spring:
+  profiles:
+    active: @spring.profiles.active@
+
+  jpa:
+    hibernate:
+      naming:
+        physical-strategy: com.vladmihalcea.hibernate.type.util.CamelCaseToSnakeCaseNamingStrategy
+    properties:
+      hibernate:
+        jdbc:
+          batch_size: 10
+
+server:
+  servlet:
+    context-path: /api/v1
