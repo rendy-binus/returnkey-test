@@ -9,17 +9,15 @@
 
 ### Run the service
 
-```shell
-$ ./run-dev.sh
-```
+    ./run-dev.sh
 
 
 ### Run in IDE
 
 This script will spin up SFTP server in docker container for development use
-```shell
-$ ./init-dev-env.sh
-```
+
+    ./init-dev-env.sh
+
 
 
 ### Swagger UI
