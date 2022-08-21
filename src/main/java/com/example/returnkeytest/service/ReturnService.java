@@ -8,6 +8,7 @@ import com.example.returnkeytest.model.dto.ItemDto;
 import com.example.returnkeytest.model.dto.OrderReturnDto;
 import com.example.returnkeytest.model.dto.createreturn.CreateReturnRequest;
 import com.example.returnkeytest.model.dto.createreturn.CreateReturnResponse;
+import com.example.returnkeytest.model.dto.updateqcstatus.UpdateQCStatusRequest;
 import com.example.returnkeytest.model.entity.OrderReturn;
 import com.example.returnkeytest.model.entity.PendingReturn;
 import com.example.returnkeytest.model.entity.RefundItem;
@@ -182,5 +183,33 @@ public class ReturnService {
                 .orElseThrow(ErrorCode.RETURN_ERR_03::exception);
 
         return orderReturnMapper.toDto(orderReturn);
+    }
+
+    @Transactional
+    public void updateQCStatus(long orderReturnId, long refundItemId, UpdateQCStatusRequest request) {
+        OrderReturn orderReturn = orderReturnRepository.findById(orderReturnId)
+                .orElseThrow(ErrorCode.RETURN_ERR_03::exception);
+
+        RefundItem refundItem = orderReturn.getItems().stream()
+                .filter(item -> item.getId() == refundItemId)
+                .findFirst().orElseThrow(ErrorCode.RETURN_ERR_04::exception);
+
+        if (refundItem.getStatus() != null) {
+            throw ErrorCode.RETURN_ERR_05.exception();
+        }
+
+        refundItem.setStatus(request.getStatus());
+        refundItemRepository.save(refundItem);
+
+        // count all refund item with status null
+        long countStatusNull = orderReturn.getItems().stream()
+                .filter(item -> item.getStatus() == null)
+                .count();
+
+        // if there's no refund item with status null then, set Order Return to Complete
+        if (countStatusNull == 0) {
+            orderReturn.setStatus(ReturnStatus.COMPLETE);
+            orderReturnRepository.save(orderReturn);
+        }
     }
 }

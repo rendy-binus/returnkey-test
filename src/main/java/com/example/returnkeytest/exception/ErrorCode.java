@@ -6,7 +6,8 @@ public enum ErrorCode {
     RETURN_ERR_01("RETURN_ERR_01", "Token is not valid", HttpStatus.FORBIDDEN),
     RETURN_ERR_02("RETURN_ERR_02", "Token is expired", HttpStatus.FORBIDDEN),
     RETURN_ERR_03("RETURN_ERR_03", "Order Return not found", HttpStatus.NOT_FOUND),
-    ;
+    RETURN_ERR_04("RETURN_ERR_04", "Refund Item not found", HttpStatus.NOT_FOUND),
+    RETURN_ERR_05("RETURN_ERR_05", "Refund Item Status can't be changed", HttpStatus.UNPROCESSABLE_ENTITY);
 
     private final String code;
     private final String description;

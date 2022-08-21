@@ -21,6 +21,7 @@ public class OrderReturnMapper {
 
         entity.getItems().forEach(item -> {
             OrderReturnDto.RefundItem refundItem = OrderReturnDto.RefundItem.builder()
+                    .id(item.getId())
                     .sku(item.getSku())
                     .itemName(item.getItemName())
                     .pricePerUnit(item.getPrice())

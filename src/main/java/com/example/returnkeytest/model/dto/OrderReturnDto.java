@@ -41,6 +41,9 @@ public class OrderReturnDto implements Serializable {
     @AllArgsConstructor
     @SuperBuilder
     public static class RefundItem extends ItemDto {
+        @Schema(example = "312")
+        private long id;
+
         @Schema(example = "Small Black T-Shirt")
         private String itemName;
 
