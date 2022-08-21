@@ -16,6 +16,7 @@ spring:
       hibernate:
         jdbc:
           batch_size: ${JDBC_BATCH_SIZE:10}
+        dialect: ${spring.jpa.database-platform}
 
 sftp:
   host: ${SFTP_HOST:127.0.0.1}
@@ -28,6 +29,10 @@ sftp:
     local-file-name: ${SFTP_ORDER_LOCAL_FILENAME:orders_%s.csv}
     remote-file-path: ${SFTP_ORDER_REMOTE_FILEPATH:/order}
     remote-file-name: ${SFTP_ORDER_REMOTE_FILENAME:orders.csv}
+
+app:
+  token:
+    time-to-live: 10
 
 logging:
   pattern:

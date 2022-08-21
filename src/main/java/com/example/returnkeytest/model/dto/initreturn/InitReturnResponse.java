@@ -15,6 +15,6 @@ import java.io.Serializable;
 public class InitReturnResponse implements Serializable {
     private static final long serialVersionUID = -4973893063914974987L;
 
-    @Schema(example = "5qQqHDQvDQfTNmCKC7o5Ye")
+    @Schema(example = "5qQqHDQvDQfTNmCKC7o5Ye", description = "value is used for create return")
     private String token;
 }
