@@ -6,3 +6,13 @@ services:
     ports:
       - "2222:22"
     command: returnkey:returnkey:1000:1000:order
+  return-service:
+    image: return-service:0.0.1-SNAPSHOT
+    ports:
+      - "8080:8080"
+    links:
+      - "sftp"
+    environment:
+      - SPRING_PROFILES_ACTIVE=dev
+      - SFTP_HOST=sftp
+      - SFTP_PORT=22
