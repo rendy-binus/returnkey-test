@@ -5,11 +5,13 @@ import com.example.returnkeytest.exception.ErrorCode;
 import com.example.returnkeytest.model.OrderRecord;
 import com.example.returnkeytest.model.ReturnStatus;
 import com.example.returnkeytest.model.dto.ItemDto;
+import com.example.returnkeytest.model.dto.OrderReturnDto;
 import com.example.returnkeytest.model.dto.createreturn.CreateReturnRequest;
 import com.example.returnkeytest.model.dto.createreturn.CreateReturnResponse;
 import com.example.returnkeytest.model.entity.OrderReturn;
 import com.example.returnkeytest.model.entity.PendingReturn;
 import com.example.returnkeytest.model.entity.RefundItem;
+import com.example.returnkeytest.model.mapper.OrderReturnMapper;
 import com.example.returnkeytest.repository.OrderReturnRepository;
 import com.example.returnkeytest.repository.PendingReturnRepository;
 import com.example.returnkeytest.repository.RefundItemRepository;
@@ -36,6 +38,8 @@ public class ReturnService {
     private final PendingReturnRepository pendingReturnRepository;
     private final OrderReturnRepository orderReturnRepository;
     private final RefundItemRepository refundItemRepository;
+
+    private final OrderReturnMapper orderReturnMapper;
 
     public CreateReturnResponse createReturn(CreateReturnRequest request) {
         PendingReturn pendingReturn = getPendingReturn(request.getToken());
@@ -171,5 +175,12 @@ public class ReturnService {
     public void invalidateToken(PendingReturn pendingReturn) {
         pendingReturn.setValid(false);
         pendingReturnRepository.save(pendingReturn);
+    }
+
+    public OrderReturnDto getOrderReturn(long id) {
+        OrderReturn orderReturn = orderReturnRepository.findById(id)
+                .orElseThrow(ErrorCode.RETURN_ERR_03::exception);
+
+        return orderReturnMapper.toDto(orderReturn);
     }
 }

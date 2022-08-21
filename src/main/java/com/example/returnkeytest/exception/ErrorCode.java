@@ -4,7 +4,9 @@ import org.springframework.http.HttpStatus;
 
 public enum ErrorCode {
     RETURN_ERR_01("RETURN_ERR_01", "Token is not valid", HttpStatus.FORBIDDEN),
-    RETURN_ERR_02("RETURN_ERR_02", "Token is expired", HttpStatus.FORBIDDEN);
+    RETURN_ERR_02("RETURN_ERR_02", "Token is expired", HttpStatus.FORBIDDEN),
+    RETURN_ERR_03("RETURN_ERR_03", "Order Return not found", HttpStatus.NOT_FOUND),
+    ;
 
     private final String code;
     private final String description;
